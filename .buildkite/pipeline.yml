@@ -28,3 +28,17 @@ steps:
     plugins: *common_plugins
     agents:
       queue: default
+
+  #################
+  # Publish the Binary (if we're building a tag)
+  #################
+  - label: "⬆️ Publish Binary"
+    key: "publish"
+    command: .buildkite/publish.sh
+    env: *common_env
+    plugins: *common_plugins
+    depends_on:
+      - "test"
+    if: build.tag != null
+    agents:
+      queue: "mac"

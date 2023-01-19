@@ -105,7 +105,7 @@ struct SensorCodes {
         "TC4c",
         "TC5c",
         "TC6c",
-        "TC7c",
+        "TC7c"
     ]
 
     static let gpuTempSensorCodes = [
@@ -116,18 +116,18 @@ struct SensorCodes {
         "TN0P",
         "TN1P",
         "TG0T",
-        "TG0P",
+        "TG0P"
     ]
 
     static let memoryTempSensorCodes = [
-        "TM0P",
+        "TM0P"
     ]
 
     static let airflowTempSensorCodes = [
         "TA0P",
         "TaLC",
         "TaRC",
-        "TA1P",
+        "TA1P"
     ]
 
     static let ambientTempSensorCodes = [
@@ -138,7 +138,7 @@ struct SensorCodes {
         "TA1p",
         "TA2p",
 
-        "Ta0P",
+        "Ta0P"
     ]
 
     static let thunderboltTempSensorCodes = [
@@ -148,12 +148,12 @@ struct SensorCodes {
         "TI1P",
         "TI0p",
         "Te0t",
-        "THSP",
+        "THSP"
     ]
 
     static let fanCodes = [
         "F0Ac",
-        "F1Ac",
+        "F1Ac"
     ]
 
     static func contains(_ code: String) -> Bool {
@@ -178,7 +178,15 @@ struct SensorCodes {
     }
 
     static func temperatureSensors(in list: [String]) -> [Sensor] {
-        cpuSensors(in: list) + gpuSensors(in: list) + memorySensors(in: list) + ssdSensors(in: list) + airflowSensors(in: list) + ambientTemperatureSensors(in: list) + thunderboltTemperatureSensors(in: list)
+        [
+            cpuSensors(in: list),
+            gpuSensors(in: list),
+            memorySensors(in: list),
+            ssdSensors(in: list),
+            airflowSensors(in: list),
+            ambientTemperatureSensors(in: list),
+            thunderboltTemperatureSensors(in: list)
+        ].reduce([Sensor](), +)
     }
 
     static func cpuSensors(in list: [String]) -> [Sensor] {

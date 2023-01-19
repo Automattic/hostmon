@@ -62,13 +62,13 @@ public struct SMCService {
     }
 
     public func fetchAllKeys() throws -> [FourCharCode] {
-        try (0..<fetchValidKeyCount()).map { try fetchKey(atIndex: $0) }
+        try (0..<fetchValidKeyCount()).map { try fetchKey(at: $0) }
     }
 
-    public func fetchKey(atIndex ix: UInt32) throws -> FourCharCode {
+    public func fetchKey(at index: UInt32) throws -> FourCharCode {
         var inputStructure = SMCKeyData_t()
         inputStructure.data8 = CChar(SMC_CMD_READ_INDEX)
-        inputStructure.data32 = ix
+        inputStructure.data32 = index
 
         var outputStructure = SMCKeyData_t()
 

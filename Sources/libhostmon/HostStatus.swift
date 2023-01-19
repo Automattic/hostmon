@@ -21,7 +21,7 @@ public class HostStatistics {
     /// Used to compare network traffic counts between invocations of `networkStatistics(forInterfaceNamed:)`
     private var networkTrafficCache = [String: NetworkInterfaceStatistics]()
 
-    public init(){}
+    public init() {}
 
     public var cpuLoad: CPULoad? {
         get throws {
@@ -74,7 +74,7 @@ public class HostStatistics {
     ) throws -> DiskUsage {
         let values = try url.resourceValues(forKeys: [
             .volumeTotalCapacityKey,
-            .volumeAvailableCapacityForImportantUsageKey,
+            .volumeAvailableCapacityForImportantUsageKey
         ])
 
         guard
@@ -92,7 +92,7 @@ public class HostStatistics {
 
     public func networkStatistics(forInterfaceNamed name: String) throws -> NetworkUsage? {
 
-        var ifaddr : UnsafeMutablePointer<ifaddrs>?
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0 else {
             throw Errors.unableToFetchNetworkInterfaces
         }

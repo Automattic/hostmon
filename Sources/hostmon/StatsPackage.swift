@@ -69,7 +69,7 @@ struct StatsPackage: Encodable {
 
     func encode(to encoder: Encoder) throws {
 
-        let tempMap = self.temperatures.reduce(into: [String: Int]()){ $0[$1.sensorName] = $1.temperature }
+        let tempMap = self.temperatures.reduce(into: [String: Int]()) { $0[$1.sensorName] = $1.temperature }
         let fanMap = self.fanSpeeds.reduce(into: [String: Int]()) { $0[$1.fanName] = $1.rpm }
 
         var container = encoder.container(keyedBy: CodingKeys.self)

@@ -3,6 +3,7 @@ import IOKit
 import libsmc
 
 struct SMCBytes {
+    // swiftlint:disable large_tuple
     let bytes: (
         UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
         UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
@@ -28,7 +29,7 @@ struct SMCBytes {
         }[range]
     }
 
-    init(bytes: SMCBytes_t){
+    init(bytes: SMCBytes_t) {
         self.bytes = bytes
     }
 

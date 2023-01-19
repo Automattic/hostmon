@@ -38,7 +38,7 @@ struct HostMonApplication: AsyncParsableCommand {
             Self.exit(withError: Errors.invalidEndpointUrl)
         }
 
-        while(true) {
+        while true {
             let statsPackage = try StatsPackage(
                 cpuLoad: hostStatistics.cpuLoad,
                 memoryUsage: hostStatistics.memoryUsage,

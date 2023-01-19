@@ -7,14 +7,14 @@ public struct NetworkInterfaceStatistics {
     public let timestamp: Int = Int(Date().timeIntervalSince1970)
 
     enum Errors: Error {
-        case unableToReadStatisticsForNonLinkLayerInterface
+        case interfaceIsNotLinkLayerInterface
     }
 
     static func from(_ pointer: UnsafeMutablePointer<ifaddrs>) throws -> NetworkInterfaceStatistics {
 
         /// We can't collect metrics for non-link-layer interfaces, so we won't try to convert those
         guard pointer.pointee.ifa_addr.pointee.sa_family == AF_LINK else {
-            throw Errors.unableToReadStatisticsForNonLinkLayerInterface
+            throw Errors.interfaceIsNotLinkLayerInterface
         }
 
         let networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)

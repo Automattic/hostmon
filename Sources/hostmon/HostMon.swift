@@ -9,10 +9,10 @@ struct HostMonApplication: AsyncParsableCommand {
         case invalidEndpointUrl
     }
 
-    @Argument(help: "The network interface to collect metrics for.")
+    @Option(help: "The network interface to collect metrics for.")
     var networkInterfaceToMonitor: String = "en0"
 
-    @Argument(help: "The URL endpoint that will receive metrics")
+    @Option(help: "The URL endpoint that will receive metrics")
     var uploadUrl: String
 
     @Option(name: .long, help: "How frequently to send metrics to the server")

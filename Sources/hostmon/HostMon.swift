@@ -5,6 +5,11 @@ import libhostmon
 @main
 struct HostMonApplication: AsyncParsableCommand {
 
+    static var configuration = CommandConfiguration(
+        abstract: "A utility for monitoring Mac hardware metrics",
+        version: "1.0.0"
+    )
+
     enum Errors: Error {
         case invalidEndpointUrl
     }

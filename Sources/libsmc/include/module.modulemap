@@ -1,0 +1,5 @@
+module libsmc {
+    header "../smc.h"
+    link "smc"
+    export *
+}

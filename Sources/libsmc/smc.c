@@ -25,6 +25,7 @@
 #include <IOKit/IOKitLib.h>
 #include "smc.h"
 #include <libkern/OSAtomic.h>
+#include <os/lock.h>  // Adjusted by a8c per Xcode warning
 
 // Cache the keyInfo to lower the energy impact of SMCReadKey() / SMCReadKey2()
 #define KEY_INFO_CACHE_SIZE 100
@@ -34,7 +35,7 @@ struct {
 } g_keyInfoCache[KEY_INFO_CACHE_SIZE];
 
 int g_keyInfoCacheCount = 0;
-OSSpinLock g_keyInfoSpinLock = 0;
+os_unfair_lock_t g_keyInfoLock = &OS_UNFAIR_LOCK_INIT; // Adjusted by a8c per Xcode warning
 
 kern_return_t SMCCall2(int index, SMCKeyData_t *inputStructure, SMCKeyData_t *outputStructure, io_connect_t conn);
 
@@ -343,7 +344,7 @@ kern_return_t SMCGetKeyInfo(UInt32 key, SMCKeyData_keyInfo_t* keyInfo, io_connec
     kern_return_t result = kIOReturnSuccess;
     int i = 0;
 
-    OSSpinLockLock(&g_keyInfoSpinLock);
+    os_unfair_lock_lock(g_keyInfoLock);  // Adjusted by a8c per Xcode warning
 
     for (; i < g_keyInfoCacheCount; ++i)
     {
@@ -376,7 +377,7 @@ kern_return_t SMCGetKeyInfo(UInt32 key, SMCKeyData_keyInfo_t* keyInfo, io_connec
         }
     }
 
-    OSSpinLockUnlock(&g_keyInfoSpinLock);
+    os_unfair_lock_unlock(g_keyInfoLock);  // Adjusted by a8c per Xcode warning
 
     return result;
 }
@@ -392,7 +393,7 @@ kern_return_t SMCReadKey2(UInt32Char_t key, SMCVal_t *val,io_connect_t conn)
     memset(val, 0, sizeof(SMCVal_t));
 
     inputStructure.key = _strtoul(key, 4, 16);
-    sprintf(val->key, key);
+    sprintf(val->key, "%s", key); /// Automattic adjustment – fixed Xcode warning
 
     result = SMCGetKeyInfo(inputStructure.key, &outputStructure.keyInfo, conn);
     if (result != kIOReturnSuccess)
@@ -515,6 +516,9 @@ kern_return_t SMCPrintAll(void)
     return kIOReturnSuccess;
 }
 
+/// A8C change starts – make `getFloatFromVal` public
+#endif //#ifdef CMD_TOOL
+/// A8C change ends
 
 //Fix me with other types
 float getFloatFromVal(SMCVal_t val)
@@ -539,6 +543,10 @@ float getFloatFromVal(SMCVal_t val)
 
     return fval;
 }
+
+/// A8C change starts – make `getFloatFromVal` public
+#ifdef CMD_TOOL_BUILD
+/// A8C change ends
 
 kern_return_t SMCPrintFans(void)
 {

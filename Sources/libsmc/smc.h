@@ -22,6 +22,13 @@
 #define __SMC_H__
 #endif
 
+/// A8C changes start here – dependencies
+#include <MacTypes.h>
+#include <mach/i386/kern_return.h>
+#include <IOKit/IOKitLib.h>
+///A8C changes end here
+
+
 #define CMD_TOOL
 #define VERSION               "0.01"
 
@@ -137,3 +144,8 @@ kern_return_t SMCWriteSimple(UInt32Char_t key,char *wvalue,io_connect_t conn);
 kern_return_t SMCOpen(io_connect_t *conn);
 kern_return_t SMCClose(io_connect_t conn);
 kern_return_t SMCReadKey2(UInt32Char_t key, SMCVal_t *val,io_connect_t conn);
+
+/// A8C changes start here – public methods
+float getFloatFromVal(SMCVal_t val);
+kern_return_t SMCCall2(int index, SMCKeyData_t *inputStructure, SMCKeyData_t *outputStructure,io_connect_t conn);
+///A8C changes end here

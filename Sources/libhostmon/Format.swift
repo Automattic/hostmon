@@ -25,4 +25,16 @@ struct Format {
     static func memorySize(_ int: UInt64) -> String {
         memorySizeFormatter.string(fromByteCount: Int64(int))
     }
+
+    static func osVersion(_ version: OperatingSystemVersion) -> String {
+        let fmt = NumberFormatter()
+        fmt.minimumIntegerDigits = 2
+        fmt.maximumIntegerDigits = 2
+
+        return [
+            fmt.string(for: version.majorVersion),
+            fmt.string(for: version.minorVersion),
+            fmt.string(for: version.patchVersion),
+        ].compactMap { $0 }.joined()
+    }
 }

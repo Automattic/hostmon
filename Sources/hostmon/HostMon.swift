@@ -7,7 +7,7 @@ struct HostMonApplication: AsyncParsableCommand {
 
     private static let storageStrategies: [StatsPackagePersistenceStrategy] = [
         DefaultStatsPackageUploader(),
-        AppsMetricsStatsPackagePersistenceStrategy()
+        AppsMetricsStatsPersistenceStrategy()
     ]
 
     static var configuration = CommandConfiguration(
@@ -27,7 +27,7 @@ struct HostMonApplication: AsyncParsableCommand {
     var uploadUrl: String
 
     @Option(help: "A value used to provide authorization to the metrics endpoint")
-    var bearerToken: String? = nil
+    var bearerToken: String?
 
     @Option(name: .long, help: "How frequently to send metrics to the server")
     var interval: UInt64 = 60
@@ -50,7 +50,7 @@ struct HostMonApplication: AsyncParsableCommand {
             Self.exit(withError: Errors.invalidStorageStrategy)
         }
 
-        var requestSigner: HttpRequestSigner? = nil
+        var requestSigner: HttpRequestSigner?
 
         if let bearerToken {
             requestSigner = BearerTokenRequestSigner(token: bearerToken)

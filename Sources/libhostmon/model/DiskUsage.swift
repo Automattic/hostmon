@@ -7,7 +7,7 @@ public struct DiskUsage: Codable {
     var asDictionary: [String: UInt64] {
         [
             "available": self.availableCapacity,
-            "total": self.totalCapacity,
+            "total": self.totalCapacity
         ]
     }
 }

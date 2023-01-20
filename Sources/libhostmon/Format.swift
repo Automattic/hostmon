@@ -34,7 +34,7 @@ struct Format {
         return [
             fmt.string(for: version.majorVersion),
             fmt.string(for: version.minorVersion),
-            fmt.string(for: version.patchVersion),
+            fmt.string(for: version.patchVersion)
         ].compactMap { $0 }.joined()
     }
 }

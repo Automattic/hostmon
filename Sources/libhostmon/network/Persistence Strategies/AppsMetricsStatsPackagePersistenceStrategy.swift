@@ -1,9 +1,9 @@
 import Foundation
 
-public struct AppsMetricsStatsPackagePersistenceStrategy: StatsPackagePersistenceStrategy {
+public struct AppsMetricsStatsPersistenceStrategy: StatsPackagePersistenceStrategy {
     public let handle: String = "a8c-apps-metrics"
 
-    public init(){}
+    public init() {}
 
     public func persist(package: StatsPackage, to url: URL, with requestSigner: HttpRequestSigner?) async throws {
         var request = URLRequest(url: url)
@@ -16,7 +16,7 @@ public struct AppsMetricsStatsPackagePersistenceStrategy: StatsPackagePersistenc
         }
 
         let data = try JSONEncoder().encode([
-            "metrics": self.convertPackage(package),
+            "metrics": self.convertPackage(package)
         ])
 
         let (body, response) = try await URLSession.shared.upload(for: request, from: data)
@@ -42,7 +42,7 @@ public struct AppsMetricsStatsPackagePersistenceStrategy: StatsPackagePersistenc
 
         let prefix = package.hostname
 
-        package.cpuLoad?.asDictionary.forEach{ metrics[ prefix + "-cpu-" + $0.key] = $0.value }
+        package.cpuLoad?.asDictionary.forEach { metrics[ prefix + "-cpu-" + $0.key] = $0.value }
         package.memoryUsage?.asDictionary.forEach { metrics[ prefix + "-memory-" + $0.key] = Double($0.value) }
         package.diskUsage?.asDictionary.forEach { metrics[ prefix + "-disk-" + $0.key] = Double($0.value) }
         package.networkUsage?.asDictionary.forEach { metrics[ prefix + "-network-" + $0.key] = $0.value }

@@ -37,27 +37,29 @@ public struct AppsMetricsStatsPersistenceStrategy: StatsPackagePersistenceStrate
         print("")
     }
 
-    private func convertPackage(_ package: StatsPackage) -> [KeyValuePair] {
-        var metrics = [String: Double]()
-
-        let prefix = package.hostname
-
-        package.cpuLoad?.asDictionary.forEach { metrics[ prefix + "-cpu-" + $0.key] = $0.value }
-        package.memoryUsage?.asDictionary.forEach { metrics[ prefix + "-memory-" + $0.key] = Double($0.value) }
-        package.diskUsage?.asDictionary.forEach { metrics[ prefix + "-disk-" + $0.key] = Double($0.value) }
-        package.networkUsage?.asDictionary.forEach { metrics[ prefix + "-network-" + $0.key] = $0.value }
-        package.fanSpeeds.forEach { metrics[prefix + "-fanspeed-" + $0.fanName] = Double($0.rpm) }
-        package.temperatures.forEach { metrics[prefix + "-temperature-" + $0.sensorName] = Double($0.temperature) }
-
-        metrics[prefix + "-os-version"] = package.osversion.asDouble
-
-        return metrics.map {
-            KeyValuePair(name: $0.key, value: $0.value)
-        }
+    struct AppsMetricsPair: Encodable {
+        let name: String
+        let value: KeyValuePair.ValueType
     }
 
-    struct KeyValuePair: Encodable {
-        let name: String
-        let value: Double
+    private func convertPackage(_ package: StatsPackage) -> [AppsMetricsPair] {
+        self.keyValuePairs(from: package).map { AppsMetricsPair(name: $0.key, value: $0.value) }
+    }
+
+    private func keyValuePairs(from package: StatsPackage) -> [KeyValuePair] {
+        let prefix = package.hostname
+
+        return [
+            package.cpuLoad?.asKeyValuePairs.prependingKeysWith(prefix + "-cpu-"),
+            package.memoryUsage?.asKeyValuePairs.prependingKeysWith(prefix + "-memory-"),
+            package.diskUsage?.asKeyValuePairs.prependingKeysWith(prefix + "-disk-"),
+            package.networkUsage?.asKeyValuePairs.prependingKeysWith(prefix + "-disk-"),
+            package.fanSpeeds.map(\.asKeyValuePair).prependingKeysWith(prefix + "-fanspeed-"),
+            package.temperatures.map(\.asKeyValuePair).prependingKeysWith(prefix + "-temperature-")
+        ].compactMap { $0 }.reduce(into: [KeyValuePair](), { $0.append(contentsOf: $1)})
+        +
+        [
+            KeyValuePair(key: prefix + "-os-version", value: .double(package.osversion.asDouble))
+        ]
     }
 }

@@ -30,8 +30,12 @@ public struct TemperatureSensorValue: Codable {
     public let temperature: Int
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: DynamicKey.self)
-        try container.encode(self.temperature, forKey: DynamicKey(stringValue: self.sensorName))
+        var container = encoder.container(keyedBy: DynamicCodingKey.self)
+        try container.encode(self.temperature, forKey: DynamicCodingKey(stringValue: self.sensorName))
+    }
+
+    var asKeyValuePair: KeyValuePair {
+        KeyValuePair(key: self.sensorName, value: .int(self.temperature))
     }
 }
 
@@ -40,22 +44,12 @@ public struct FanSpeedValue: Codable {
     public let rpm: Int
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: DynamicKey.self)
-        try container.encode(self.rpm, forKey: DynamicKey(stringValue: self.fanName))
-    }
-}
-
-struct DynamicKey: CodingKey {
-    var intValue: Int?
-    init?(intValue: Int) {
-        self.intValue = intValue
-        self.stringValue = String(intValue)
+        var container = encoder.container(keyedBy: DynamicCodingKey.self)
+        try container.encode(self.rpm, forKey: DynamicCodingKey(stringValue: self.fanName))
     }
 
-    var stringValue: String
-    init(stringValue: String) {
-        self.intValue = nil
-        self.stringValue = stringValue
+    var asKeyValuePair: KeyValuePair {
+        KeyValuePair(key: self.fanName, value: .int(self.rpm))
     }
 }
 

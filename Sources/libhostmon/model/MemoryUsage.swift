@@ -18,12 +18,12 @@ public struct MemoryUsage: Codable {
         )
     }
 
-    public var asDictionary: [String: UInt64] {
+    public var asKeyValuePairs: [KeyValuePair] {
         [
-            "free": self.freeBytes,
-            "active": self.activeBytes,
-            "wired": self.wiredBytes,
-            "compressed": self.compressedBytes
+            KeyValuePair(key: "free", value: .uInt64(self.freeBytes)),
+            KeyValuePair(key: "active", value: .uInt64(self.activeBytes)),
+            KeyValuePair(key: "wired", value: .uInt64(self.wiredBytes)),
+            KeyValuePair(key: "compressed", value: .uInt64(self.compressedBytes))
         ]
     }
 }

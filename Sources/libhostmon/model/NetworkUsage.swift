@@ -16,13 +16,13 @@ public struct NetworkUsage: Codable {
         self.timeframe = TimeInterval(current.timestamp - previous.timestamp)
     }
 
-    var asDictionary: [String: Double] {
+    var asKeyValuePairs: [KeyValuePair] {
         [
-            "bytes-sent": Double(self.bytesSent),
-            "bytes-received": Double(self.bytesReceieved),
-
-            "bytes-sent-per-second": Double(self.bytesSent) / self.timeframe,
-            "bytes-received-per-second": Double(self.bytesReceieved) / self.timeframe
+            KeyValuePair(key: "bytes-sent", value: .uInt32(self.bytesSent)),
+            KeyValuePair(key: "bytes-received", value: .uInt32(self.bytesReceieved)),
+            KeyValuePair(key: "timeframe", value: .timeInterval(self.timeframe)),
+            KeyValuePair(key: "bytes-sent-per-second", value: .double(Double(self.bytesSent) / self.timeframe)),
+            KeyValuePair(key: "bytes-received-per-second", value: .double(Double(self.bytesReceieved) / self.timeframe))
         ]
     }
 }

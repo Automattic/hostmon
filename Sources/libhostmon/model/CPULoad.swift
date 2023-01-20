@@ -29,12 +29,12 @@ public struct CPULoad: Codable {
         self.nice = nice
     }
 
-    var asDictionary: [String: Double] {
+    var asKeyValuePairs: [KeyValuePair] {
         [
-            "user": self.user,
-            "system": self.system,
-            "idle": self.idle,
-            "nice": self.nice
+            KeyValuePair(key: "user", value: .double(self.user)),
+            KeyValuePair(key: "system", value: .double(self.system)),
+            KeyValuePair(key: "idle", value: .double(self.idle)),
+            KeyValuePair(key: "nice", value: .double(self.nice))
         ]
     }
 }

@@ -53,13 +53,15 @@ public struct AppsMetricsStatsPersistenceStrategy: StatsPackagePersistenceStrate
             package.cpuLoad?.asKeyValuePairs.prependingKeysWith(prefix + "-cpu-"),
             package.memoryUsage?.asKeyValuePairs.prependingKeysWith(prefix + "-memory-"),
             package.diskUsage?.asKeyValuePairs.prependingKeysWith(prefix + "-disk-"),
-            package.networkUsage?.asKeyValuePairs.prependingKeysWith(prefix + "-disk-"),
+            package.networkUsage?.asKeyValuePairs.prependingKeysWith(prefix + "-network-"),
             package.fanSpeeds.map(\.asKeyValuePair).prependingKeysWith(prefix + "-fanspeed-"),
             package.temperatures.map(\.asKeyValuePair).prependingKeysWith(prefix + "-temperature-")
         ].compactMap { $0 }.reduce(into: [KeyValuePair](), { $0.append(contentsOf: $1)})
         +
         [
-            KeyValuePair(key: prefix + "-os-version", value: .double(package.osversion.asDouble))
+            KeyValuePair(key: prefix + "-os-version", value: .double(package.osversion.asDouble)),
+            KeyValuePair(key: prefix + "-os-version-string", value: .string(package.osversion.toString())),
+            KeyValuePair(key: prefix + "-uptime", value: .int(package.uptime))
         ]
     }
 }

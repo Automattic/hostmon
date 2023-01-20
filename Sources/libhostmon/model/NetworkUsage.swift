@@ -15,4 +15,14 @@ public struct NetworkUsage: Codable {
         self.bytesReceieved = current.bytesReceived - previous.bytesReceived
         self.timeframe = TimeInterval(current.timestamp - previous.timestamp)
     }
+
+    var asDictionary: [String: Double] {
+        [
+            "bytes-sent": Double(self.bytesSent),
+            "bytes-received": Double(self.bytesReceieved),
+
+            "bytes-sent-per-second": Double(self.bytesSent) / self.timeframe,
+            "bytes-received-per-second": Double(self.bytesReceieved) / self.timeframe
+        ]
+    }
 }

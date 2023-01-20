@@ -28,4 +28,13 @@ public struct CPULoad: Codable {
         self.idle = idle
         self.nice = nice
     }
+
+    var asDictionary: [String: Double] {
+        [
+            "user": self.user,
+            "system": self.system,
+            "idle": self.idle,
+            "nice": self.nice
+        ]
+    }
 }

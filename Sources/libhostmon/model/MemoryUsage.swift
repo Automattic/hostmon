@@ -17,4 +17,13 @@ public struct MemoryUsage: Codable {
             compressedBytes: UInt64(stats.compressor_page_count) * pageSize
         )
     }
+
+    public var asDictionary: [String: UInt64] {
+        [
+            "free": self.freeBytes,
+            "active": self.activeBytes,
+            "wired": self.wiredBytes,
+            "compressed": self.compressedBytes
+        ]
+    }
 }

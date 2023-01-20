@@ -12,7 +12,7 @@ struct HostMonApplication: AsyncParsableCommand {
 
     static var configuration = CommandConfiguration(
         abstract: "A utility for monitoring Mac hardware metrics",
-        version: "1.1.0"
+        version: "1.1.1"
     )
 
     enum Errors: Error {

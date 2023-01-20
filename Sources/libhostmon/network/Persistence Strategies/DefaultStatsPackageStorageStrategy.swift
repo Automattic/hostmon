@@ -17,7 +17,10 @@ public struct DefaultStatsPackageUploader: StatsPackagePersistenceStrategy {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        try await requestSigner?.sign(request: request)
+
+        if let requestSigner {
+            request = try await requestSigner.sign(request: request)
+        }
 
         let data = try self.jsonEncoder.encode(package)
 

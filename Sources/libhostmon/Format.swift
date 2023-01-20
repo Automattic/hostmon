@@ -55,4 +55,8 @@ extension OperatingSystemVersion: Encodable {
     var asDouble: Double {
         Double(self.patchVersion + self.minorVersion * 100 + self.majorVersion * 10_000)
     }
+
+    func toString() -> String {
+        "\(self.majorVersion).\(self.minorVersion).\(self.patchVersion)"
+    }
 }

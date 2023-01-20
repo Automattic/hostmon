@@ -59,7 +59,9 @@ public struct AppsMetricsStatsPersistenceStrategy: StatsPackagePersistenceStrate
         ].compactMap { $0 }.reduce(into: [KeyValuePair](), { $0.append(contentsOf: $1)})
         +
         [
-            KeyValuePair(key: prefix + "-os-version", value: .double(package.osversion.asDouble))
+            KeyValuePair(key: prefix + "-os-version", value: .double(package.osversion.asDouble)),
+            KeyValuePair(key: prefix + "-os-version-string", value: .string(package.osversion.toString())),
+            KeyValuePair(key: prefix + "-uptime", value: .int(package.uptime))
         ]
     }
 }

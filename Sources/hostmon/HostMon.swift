@@ -67,7 +67,7 @@ struct HostMonApplication: AsyncParsableCommand {
             )
 
             try await storageStrategy.persist(package: statsPackage, to: url, with: requestSigner)
-            try await Task.sleep(nanoseconds: NSEC_PER_SEC * self.interval)
+            try await Task.sleep(for: .seconds(self.interval))
         }
     }
 }

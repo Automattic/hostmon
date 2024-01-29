@@ -13,7 +13,7 @@ public struct SensorService {
         return try SensorCodes.temperatureSensors(in: codes).map {
             let value = try smc.fetchTemperature(forSensorWithCode: $0.code)
             return TemperatureSensorValue(sensorName: $0.label, temperature: Int(value))
-        }
+        }// .filter { $0.temperature > 0 && $0.temperature < 100 }
     }
 
     public func fetchAllFanSpeeds() throws -> [FanSpeedValue] {
@@ -81,7 +81,9 @@ struct SensorCodes {
         "Th0N",
         "TH0a",
         "TH0b",
-        "TH1R"
+        "TH1R",
+
+        "TH0x" // Apple Silicon – m2
     ]
 
     static let cpuTempSensorCodes = [
@@ -99,7 +101,32 @@ struct SensorCodes {
         "TC4c",
         "TC5c",
         "TC6c",
-        "TC7c"
+        "TC7c",
+
+        "Tp09", // Apple Silicon – m1
+        "Tp0T", // Apple Silicon – m1
+        "Tp01", // Apple Silicon – m1
+        "Tp05", // Apple Silicon – m1
+        "Tp0D", // Apple Silicon – m1
+        "Tp0H", // Apple Silicon – m1
+        "Tp0L", // Apple Silicon – m1
+        "Tp0P", // Apple Silicon – m1
+        "Tp0X", // Apple Silicon – m1
+        "Tp0b", // Apple Silicon – m1
+
+        "Tp0A", // Apple Silicon – m2
+        "Tp0B", // Apple Silicon – m2
+        "Tp0C", // Apple Silicon – m2
+        "Tp0D", // Apple Silicon – m2
+        "Tp0E", // Apple Silicon – m2
+        "Tp0W", // Apple Silicon – m2
+        "Tp0X", // Apple Silicon – m2
+        "Tp0Y", // Apple Silicon – m2
+        "Tp01", // Apple Silicon – m2
+        "Tp02", // Apple Silicon – m2
+        "Tp05", // Apple Silicon – m2
+        "Tp06", // Apple Silicon – m2
+        "Tp09" // Apple Silicon – m2
     ]
 
     static let gpuTempSensorCodes = [
@@ -110,7 +137,15 @@ struct SensorCodes {
         "TN0P",
         "TN1P",
         "TG0T",
-        "TG0P"
+        "TG0P",
+
+        "Tg05", // Apple Silicon – m1
+        "Tg0D", // Apple Silicon – m1
+        "Tg0L", // Apple Silicon – m1
+        "Tg0T", // Apple Silicon – m1
+
+        "Tg0f", // Apple Silicon – m2
+        "Tg0j" // Apple Silicon – m2
     ]
 
     static let memoryTempSensorCodes = [
@@ -121,7 +156,10 @@ struct SensorCodes {
         "TA0P",
         "TaLC",
         "TaRC",
-        "TA1P"
+        "TA1P",
+
+        "TaLP", // Apple Silicon – m2
+        "TaRF" // Apple Silicon – m2
     ]
 
     static let ambientTempSensorCodes = [

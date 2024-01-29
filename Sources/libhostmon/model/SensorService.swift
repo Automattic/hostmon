@@ -13,7 +13,7 @@ public struct SensorService {
         return try SensorCodes.temperatureSensors(in: codes).map {
             let value = try smc.fetchTemperature(forSensorWithCode: $0.code)
             return TemperatureSensorValue(sensorName: $0.label, temperature: Int(value))
-        }//.filter { $0.temperature > 0 && $0.temperature < 100 }
+        }// .filter { $0.temperature > 0 && $0.temperature < 100 }
     }
 
     public func fetchAllFanSpeeds() throws -> [FanSpeedValue] {
@@ -83,7 +83,7 @@ struct SensorCodes {
         "TH0b",
         "TH1R",
 
-        "TH0x", // Apple Silicon – m2
+        "TH0x" // Apple Silicon – m2
     ]
 
     static let cpuTempSensorCodes = [
@@ -126,7 +126,7 @@ struct SensorCodes {
         "Tp02", // Apple Silicon – m2
         "Tp05", // Apple Silicon – m2
         "Tp06", // Apple Silicon – m2
-        "Tp09", // Apple Silicon – m2
+        "Tp09" // Apple Silicon – m2
     ]
 
     static let gpuTempSensorCodes = [
@@ -145,7 +145,7 @@ struct SensorCodes {
         "Tg0T", // Apple Silicon – m1
 
         "Tg0f", // Apple Silicon – m2
-        "Tg0j", // Apple Silicon – m2
+        "Tg0j" // Apple Silicon – m2
     ]
 
     static let memoryTempSensorCodes = [
@@ -159,7 +159,7 @@ struct SensorCodes {
         "TA1P",
 
         "TaLP", // Apple Silicon – m2
-        "TaRF", // Apple Silicon – m2
+        "TaRF" // Apple Silicon – m2
     ]
 
     static let ambientTempSensorCodes = [
